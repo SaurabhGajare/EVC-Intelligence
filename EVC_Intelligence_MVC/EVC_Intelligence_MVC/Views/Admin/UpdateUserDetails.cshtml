@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Update Details";
+
+}
+
+<div class="text-center">
+    <div class="display-4">Update Details</div>
+
+    <form method="POST" action="">
+        <div class="form-content mt-4">
+            <div class="signup__container">
+                <div class="col-md-6 mx-auto">
+                    <div class="form-group">
+                        <label for="phone" class="mb-0 text-left" style="width: 100%;">Phone:</label>
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="Phone *" value="@ViewBag.data.phone" required pattern="[0-9]{10}" />
+                    </div>
+                    <div class="form-group text-left">
+                        <a data-toggle="collapse" class="text-left" href="#change-pass-section" role="button" aria-expanded="false" aria-controls="collapseExample" style="width: 100%">
+                            Change Password
+                        </a>
+                    </div>
+                    <div class="collapse" id="change-pass-section">
+                        <div class="form-group">
+                            <label for="currentPassword" class="mb-0 text-left" style="width: 100%;">Current Password:</label>
+                            <input type="password" class="form-control" name="currentPassword" id="currentPassword" placeholder="Current Password " value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="mb-0 text-left" style="width: 100%;">New Password:</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Password " value="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="mb-0 text-left" style="width: 100%;">Confirm Password:</label>
+                            <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Confirm Password " value="" />
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="submit" class="btnSubmit btn btn-primary">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("cpassword");
+
+    function validatePassword() {
+        if (password.value != cpassword.value) {
+            cpassword.setCustomValidity("Passwords Don't Match");
+        } else {
+            cpassword.setCustomValidity('');
+        }
+    }
+    $('#phone').on('keyup', function () {
+        console.log($('#phone').val());
+    })
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+    var obj = {}
+
+    $("#submit").click(function () {
+
+
+        obj['password'] = $("#password").val();
+        obj['cpassword'] = $("#cpassword").val();
+        obj['currentPassword'] = $("#currentPassword").val();
+        obj['phone'] = $("#phone").val();
+        obj['userid'] = @User.Identity.Name;
+
+
+        if (obj['currentPassword'] == '' && obj['password'] == '' && obj['cpassword'] == '') {
+
+            $.ajax({
+                url: 'https://localhost:44339/api/UpdateUserDetails',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    alert("Details Updated Successfully");
+                    window.location.replace("https://localhost:5001/Admin/Dashboard/" + obj['userid']);
+                },
+                error: function (request, status, error) {
+                    alert("Wrong Credentials " + request.responseText);
+                }
+            })
+        }
+        else if (obj['currentPassword'] == '') alert("Please Enter Current Password");
+        else if (obj['password'] == '') alert("Please Enter New Password");
+        else if (obj['cpassword'] == '') alert("Please Enter Confirm Password");
+        else if (obj['password'] != obj['cpassword']) { alert('New Password And Confirm Password Do not Match!');  }
+        else {
+            $.ajax({
+                url: 'https://localhost:44339/api/UpdateUserDetails/UpdateWithPassword',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    window.location.replace("https://localhost:5001/Admin/Login/");
+                },
+                error: function (request, status, error) {
+                    alert("Wrong Credentials " + request.responseText);
+                }
+            });
+        }
+    })
+
+
+</script>

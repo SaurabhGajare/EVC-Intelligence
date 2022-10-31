@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="text-center mt-5">
+    <div class="display-4">Log In</div>
+    <form  method="POST" id="loginform">
+        <div class="form-content mt-5">
+            <div class="row signup__container">
+                <div class="col-md-6 mx-auto">
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email *" value="" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Password *" value="" required />
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="submit" class="btnSubmit btn btn-primary">Log in</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    //console.log($('#loginform').serialize());
+    //$("#loginform").submit(function () {
+    //    var Serial = $.post('api/Login', $('#loginform').serialize())
+    //        .success(function () {
+    //            var path = Serial.getResponseHeader();
+    //            console.log('success');
+    //        })
+    //        .error(function () {
+    //            $('#message').html("Error for changes.");
+    //        });
+    //    return false;
+    //});
+
+    var obj = {}
+
+    $("#submit").click(function () {
+
+        obj['email'] = $("#email").val();
+        obj['password'] = $("#password").val();
+        obj['ReturnUrl'] = '@ViewData["ReturnUrl"]';
+        $.ajax({
+            url: 'https://localhost:5001/HandleLogin',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(obj),
+            success: function (data) {
+                
+                if (data.returnUrl) {
+                    window.location.replace("https://localhost:5001" + data.returnUrl+"/"+data.id);
+                }
+                else {
+                    window.location.replace("https://localhost:5001/Home/Dashboard"+"/"+data.id);
+                }
+                
+            },
+            error: function (error) {
+                alert("Wrong Password/Email");
+            }
+        })
+    })
+</script>
+

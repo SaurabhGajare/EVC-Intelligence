@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+
+    <div class="row mx-auto justify-content-between">
+        <h4 id="username"> Welcome @ViewBag.data.username </h4>
+        <a class="btn btn-primary" href="/Home/UpdateUserDetails/@User.Identity.Name">Update User Deatils</a>
+    </div>
+
+    <br>
+    <br>
+
+    <table style="width: 100%;">
+        <tr>
+            <td class="column" id="t1">
+                @if (ViewBag.data.stationname == "Not booked")
+                {
+                    <a id="b1" type="submit" class="btn btn-success" href="/Home/CheckSlot/@ViewBag.id"> Book Your Slot </a>
+                }
+                else
+                {
+                    <button id="b1" type="submit" class="btn btn-success" disabled> Book Your Slot </button>
+                }
+            </td>
+                <td class="column text-right" id="t3"> <strong> Coins : @ViewBag.data.coins </strong> </td>
+            </tr>
+    </table>
+
+    <hr style="height:2px; border-width:0; color:gray; background-color:gray">
+
+    <br>
+    <center>
+        <strong>Current Booking Details</strong> <br><br>
+    </center>
+
+    @if (ViewBag.data.stationname == "Not booked")
+    {
+        <div id="d1">
+            <p style="text-align:center;"> No Current Bookings </p>
+        </div>
+    }
+    else
+    {
+        <div id="d1">
+            <table class="table table-striped" style=" text-align:center; ">
+                <tr>
+                    <th style="width: 50%;"> Charging Station </th>
+                    <td> @ViewBag.data.stationname </td>
+                </tr>
+                <tr>
+                    <th> Time Slot </th>
+                    <td> @ViewBag.data.timeslot </td>
+                </tr>
+                <tr>
+                    <th> Vehicle Type </th>
+                    <td> @ViewBag.data.vehicletype </td>
+                </tr>
+                <tr>
+                    <th> Counter </th>
+                    <td> @ViewBag.data.counter </td>
+                </tr>
+                <tr>
+                    <th> Date </th>
+                    <td> @ViewBag.data.date </td>
+                </tr>
+            </table>
+        </div>
+
+        <br>
+        <center>
+            @*<button id=" b2 " class="btn btn-primary"> Update </button> &nbsp;&nbsp;*@
+            <button id="delete-booking" class="btn btn-danger"> Delete </button>
+        </center>
+    }
+
+<script>
+    $("#delete-booking").click(function () {
+
+        $.ajax({
+            url: 'https://localhost:44339/api/Dashboard/CancelBooking/' +  '@User.Identity.Name',
+            type: 'DELETE',
+            contentType: 'application/json',
+            success: function (data) {
+                alert("Booking Cancelled Successfully!!");
+                window.location.reload();
+            },
+            error: function (error) {
+                alert("Wrong Password/Email");
+            }
+        })
+    })
+</script>
+
+}
+
+
+

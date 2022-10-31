@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="text-center">
+    <div class="display-4">Sign Up</div>
+
+    <form id="signup-form" method="POST" action="" onsubmit="event.preventDefault()">
+        <div class="form-content mt-4">
+            <div class="row signup__container">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Your Name *"  required />
+                        @*<div class="correctmessage">Looks Good</div>*@
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password *" required />
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" aria-label="Default select example" name="question-select" id="question-select" required>
+                            <option selected>Select Question</option>
+                            <option value="What is your Mothers Maiden name?">What is your Mothers Maiden name?</option>
+                            <option value="What is your Fathers Name?">What is your Fathers Name?</option>
+                            <option value="What is your Pets Name?">What is your Pets Name?</option>
+                            <option value="What is your favorite colour?">What is your favorite colour?</option>
+                            <option value="What is your favorite food?">What is your favorite food?</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email *" value="" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Confirm Password *" value="" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="answer" id="answer" placeholder="Answer *" value="" required />
+                    </div>
+                </div>
+                <div class="col-md-6 mx-auto">
+                    <div class="form-group">
+                        <input type="tel" class="form-control" name="phone" id="phone" placeholder="Phone *" value="" required pattern="[0-9]{10}" />
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="submit" class="btnSubmit btn btn-primary">Sign up</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("cpassword");
+
+    function validatePassword() {
+        if (password.value != cpassword.value) {
+            cpassword.setCustomValidity("Passwords Don't Match");
+        } else {
+            cpassword.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+    var obj = {}
+
+    
+
+    $("#submit").click(function () {
+
+        $('#signup-form').validate({
+            validClass: "success",
+            onkeyup: true,
+            onclick: true
+        });
+        if ($('#signup-form').valid()) {
+            obj['email'] = $("#email").val();
+            obj['password'] = $("#password").val();
+            obj['cpassword'] = $("#cpassword").val();
+            obj['name'] = $("#name").val();
+            obj['phone'] = $("#phone").val();
+            obj['question'] = $("#question-select").val();
+            obj['answer'] = $("#answer").val();
+
+
+            $.ajax({
+                url: 'https://localhost:44339/api/Signup',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    window.location.replace("https://localhost:5001/Home/Login/");
+                },
+                error: function (request, status, error) {
+                    alert("Wrong Credentials " + request.responseText);
+                }
+            })
+        }
+
+    })
+    
+</script>

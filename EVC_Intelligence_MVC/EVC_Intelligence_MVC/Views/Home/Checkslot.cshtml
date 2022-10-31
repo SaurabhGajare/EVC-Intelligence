@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    int i = 0;
+}
+
+<h4 style="margin-left:30px;">Book Slots For Charging</h4>
+<br>
+<br>
+
+@*-------------------------------------------------------------------------------------------------------------*@
+
+<div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-left:30px;">
+    <label class="btn btn-secondary btn-dark active" id="option1">
+        <input type="radio" name="options" autocomplete="off" checked id="pinSearch"> Search By Pin      @*for next Sprint*@
+    </label>
+    <label class="btn btn-secondary btn-light" id="option2">
+        <input type="radio" name="options" autocomplete="off" id="citySerach"> Search By City
+    </label>
+</div>
+
+@*------------------------------------------------------------------------------------------------------------------*@
+
+<br>
+<br>
+<br>
+<div class="container-fluid">
+    <div class="col-md-4" style="max-width:70%">
+
+        <input type="text" id="textbox" class="form-control" placeholder="Pincode" style="display:inline-block;width:40%" required />
+        <div id="SelectCity" style="display:none;">
+            <select class="form-control" aria-label="Default select example" id="CityBox">
+
+                @foreach (var item in ViewBag.Cities){ //To Show City name in dropdown
+                    <option value="@i">@item</option>
+                    i++;
+                }
+            </select>
+        </div>
+
+        <input type="date" id="datebox" class="form-control" placeholder="Date" style="display: inline-block; width: 40%; margin-left: 30px;" required />
+        <button type="button" class="btn btn-success" id="submitBtn" value="submit" style="margin-left:20px; margin-bottom:5px">Submit</button>
+    </div>
+</div>
+<div id="Locations">
+</div>
+
+<script>
+    $("#option1").click(function () {                                                   //Search by pin
+        $('#option1').attr('class', 'btn btn-secondary btn-dark active');
+        $('#option2').attr('class', 'btn btn-secondary btn-light active');
+        $("#SelectCity").css("display", "none");
+        $("#textbox").css("display", "inline-block");
+
+    })
+    $("#option2").click(function () {                                                   //Search by city
+        $('#option1').attr('class', 'btn btn-secondary btn-light active');
+        $('#option2').attr('class', 'btn btn-secondary btn-dark active');
+        $("#SelectCity").css("display", "inline-block");
+        $("#textbox").css("display", "none");
+
+    })
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#submitBtn').click(function () {
+            
+            var date = new Date($('#datebox').val());
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            var temp = [month, day, year].join('-');
+            var commonParam;
+            var boolean;
+
+            if ($("#SelectCity").css("display") == "none") {          //Filter Result By pin
+                commonParam = $('#textbox').val();
+                boolean = 0
+            }
+            else {
+                commonParam = $("#CityBox option:selected").text();    //Filter Result By City
+                boolean = 1;
+
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44339/api/GetChargingStation/Get/' + commonParam + '/' + temp + '/' + boolean,
+
+                success: function (result) {
+                    
+                        var str1 = '<br><br><br><table class="table table-striped" style="margin-left:30px;width:95%;"><thead> <tr><th scope="col">Stations</th><th>Booked Time Slots</th><th>Empty Time Slots</th><th>Book Slot</th></tr></thead> <tbody>';
+                        for (var i = 0; i < result.length; i++) {
+                            var tr = "<tr>";
+                            var td1 = "<td>" + result[i]["stations"] + "</td>";
+                            var td2 = "<td>" + result[i]["bookedSlots"] + "</td>";
+                            var td3 = "<td>" + result[i]["emptySlots"] + "</td>";
+                            //var td4 = "<td><button id='book' class=' btn btn-primary'>Book</button></td > ";
+                            //change url for pay - dicey
+                            var td4 = "<td><a class='btn btn-success' href='https://localhost:5001/Home/Pay?Stationid=" + result[i]["stationId"] + "&date=" + result[i]["date"] + "&userId=" + @User.Identity.Name+ "'>Book</a></td>";
+                            var trEnd = "</tr>";
+                            var str1 = str1 + tr + td1 + td2 + td3 + td4 + trEnd;
+                        }
+                        var strEnd = str1 + "</tbody></table>";
+                        $('#Locations').html(strEnd);
+                },
+                error: function () {
+                    alert("Incorrect Details!!!!!!Renter Details");
+                }
+            });
+        });
+
+    })
+    $(document).ready(function () {
+        $(function () {
+            //Min Date
+            var dateToday = new Date();
+            var day = (dateToday.getDate()).toString();
+            var month = (dateToday.getMonth() + 1).toString();
+            var year = dateToday.getFullYear();
+            if (month < 10)
+                month = '0' + month;
+            if (day < 10)
+                day = '0' + day;
+            var minDate = year + '-' + month + '-' + day;
+            $("#datebox").attr("min", minDate);
+
+            //Max Date
+            var dateNext = new Date();
+            dateNext.setDate((dateNext.getDate()) + 7);
+            var maxDay = (dateNext.getDate()).toString();
+            var maxMonth = (dateNext.getMonth() + 1).toString();
+            var maxYear = dateNext.getFullYear();
+            if (maxMonth < 10)
+                maxMonth = '0' + maxMonth
+            if (maxDay < 10)
+                maxDay = '0' + maxDay;
+            var maxDate = maxYear + '-' + maxMonth + '-' + maxDay
+            $("#datebox").attr("max", maxDate);
+        })
+    })
+</script>
+
+
+
+

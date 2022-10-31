@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Add Admin";
+}
+<div class="text-center mt-5">
+    <div class="display-4">Add Admin</div>
+    <form method="POST" action="" id="loginform" onsubmit="event.preventDefault()">
+        <div class="form-content mt-5">
+            <div class="form-row signup__container">
+                <div class="col-md-6 mx-auto">
+                    <label>Name of Admin</label>
+                    <div class="form-group">
+                        <input type="text" id="name" class="form-control" placeholder="Name *" required />
+                    </div>
+                    <label>Email ID of Admin</label>
+                    <div class="form-group">
+                        <input type="email" id="email" class="form-control" placeholder="Email *" required />
+                    </div>
+                    <label>OTP of Admin</label>
+                    <div class="form-group" id="password">
+                        <input type="password" id="txtuserpass" class="form-control" placeholder="Password *" value="********" required disabled />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit" id="submit1" class="btn btn-primary text-center" style="display:inline-block">Notify</button>
+                <button class="btn btn-primary" id="submit2" type="button" style="display:none" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Notifying...
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validform() {
+        if ($("#email").val() == "") {
+            var email = document.getElementById("email")
+            email.setCustomValidity('Incorrect Email format')
+            return false;
+        }
+        else if ($("#email").val() != "") {
+            var emailtester = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            if (emailtester.test($("#email").val())) {
+                var email = document.getElementById("email")
+                email.setCustomValidity('')
+                return true;
+            }
+            else {
+                var email = document.getElementById("email")
+                email.setCustomValidity('Incorrect Email format')
+                return false;
+            }
+        }
+    }
+
+    var obj = {}
+    $("#loginform").submit(function () {
+        obj['name'] = $("#name").val();
+        obj['email'] = $("#email").val();
+        obj['password'] = '@ViewBag.Password';
+        if (validform()) {
+            //alert(validform());
+            $.ajax({
+                url: 'https://localhost:44339/api/AddAdmin/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                beforeSend: function () {
+                    $("#submit2").css("display", "inline-block");
+                    $("#submit1").css("display", "none");
+                },
+                success: function (data) {
+                    $("#submit1").css("display", "inline-block");
+                    $("#submit2").css("display", "none");
+                    alert('Admin Notified');
+                    window.location.replace("https://localhost:5001/SuperAdmin/Dashboard")
+                },
+                error: function (error) {
+                    $("#submit1").css("display", "inline-block");
+                    $("#submit2").css("display", "none");
+                    alert("Admin Already exists");
+                }
+            })
+        } else {
+            alert('incorrect format');
+        }
+
+    })
+</script>

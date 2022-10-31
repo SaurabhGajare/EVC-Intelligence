@@ -1,0 +1,102 @@
+﻿@using System.Security.Claims;
+@{
+    string role = null;
+    if (User.HasClaim(x => x.Type == ClaimTypes.Role))
+    {
+        role = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Role).Value;
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EVC Intelligence</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="mr-2" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/logo.svg" width="40" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                @if (role == "3")
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Dashboard" asp-route-id=@User.Identity.Name>Dashboard</a>
+                                }
+                                else if (role == "2")
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Dashboard" asp-route-id=@User.Identity.Name>Dashboard</a>
+                                }
+                                else if (role == "1")
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="SuperAdmin" asp-action="Dashboard" asp-route-id=@User.Identity.Name>Dashboard</a>
+                                }
+                            </li>
+
+                        }
+                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav navbar-right">
+                            <li class="nav-item">
+                                @if (role == "3")
+                                {
+                                    <a class="nav-link text-dark" href="/Home/Logout/@User.Identity.Name">Logout</a>
+                                }
+                                else if (role == "2")
+                                {
+                                    <a class="nav-link text-dark" href="/Admin/Logout/@User.Identity.Name">Logout</a>
+                                }
+                                else if (role == "1")
+                                {
+                                    <a class="nav-link text-dark" href="/SuperAdmin/Logout/@User.Identity.Name">Logout</a>
+                                }
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Home/SignUp">Sign Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Home/Login">Log In</a>
+                            </li>
+                        </ul>
+
+                    }
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - EVC_Intelligence - <a href="/Admin/Login">Admin</a> - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

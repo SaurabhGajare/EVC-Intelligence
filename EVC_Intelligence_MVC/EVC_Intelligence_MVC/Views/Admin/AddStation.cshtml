@@ -1,0 +1,127 @@
+﻿<!--HTML-->
+@{
+    ViewData["Title"] = "Add Station";
+}
+
+<script>    
+    var JSONdata = '@ViewBag.data';
+    console.log(JSONdata);
+    var data = JSON.parse(JSONdata.replace(/&quot;/g, '"'));
+    window.onload = function () {
+        var citySel = document.getElementById("city");
+        var stateSel = document.getElementById("state");
+        console.log(data);
+        for (var x in data) {
+            // adding state
+            stateSel.options[stateSel.options.length] = new Option(x, x);
+        }
+        stateSel.onchange = function () {
+            //empty Cities dropdowns
+            citySel.length = 1;
+            //display correct values
+            for (var y in data[this.value]) {
+                citySel.options[citySel.options.length] = new Option(data[this.value][y], data[this.value][y]);
+            }
+        }
+    }
+</script>
+<div class="text-center">
+    <div class="h3">Add Station</div>
+    <form method="POST" action="">
+        <div class="form-content mt-4">
+            <div class="form-row">
+                <label for="stationname" class="col-sm-2 col-form-label">Station Name:</label>
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="stationname" id="stationname" placeholder="Enter Station Name" required />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="address" class="col-sm-2 col-form-label">Address Line:</label>
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="address" id="address" placeholder="Enter address" required />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="state" class="col-sm-2 col-form-label">State:</label>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" aria-label="Default select example" name="state" id="state" required>
+                            <option value="">Select State</option>
+                        </select>
+                    </div>
+                </div>
+                <label for="city" class="col-sm-2 col-form-label">City:</label>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" aria-label="Default select example" name="city" id="city" required>
+                            <option value="">Select City</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="pincode" class="col-sm-2 col-form-label">Pincode:</label>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="pincode" id="pincode" placeholder="Enter Pincode" value="" required />
+                    </div>
+                </div>
+                <label for="counter" class="col-sm-2 col-form-label">Counters:</label>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control-plaintext" name="counter" id="counter" value="4" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="openingtime" class="col-sm-2 col-form-label">Opening Time:</label>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control-plaintext" name="openingtime" id="openingtime" value="10:00:00 AM" readonly />
+                    </div>
+                </div>
+                <label for="closingtime" class="col-sm-2 col-form-label">Closing Time:</label>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control-plaintext" name="closingtime" id="closingtime" value="18:00:00 PM" readonly />
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="addstation" class="btnSubmit btn btn-success">Add</button>
+        </div>
+    </form>
+</div>
+
+<!--Script-->
+<script>
+    
+
+    var obj = {}
+    $("#addstation").click(function () {
+
+        obj['StationName'] = $("#stationname").val();
+        obj['Address'] = $("#address").val();
+        obj['CityName'] = $("#city option:selected").text();
+        obj['StateName'] = $("#state option:selected").text();
+        obj['Pincode'] = $("#pincode").val();
+
+        $.ajax({
+            url: 'https://localhost:44339/api/AddStation',        //Post station api
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(obj),
+            success: function (data) {
+                alert("Station added Successfully");
+                //window.location.replace("https://localhost:5001/Admin/Dashboard/" + '@User.Identity.Name');
+            },
+            error: function (request, status, error) {
+                alert("HI" + error.message);
+            }
+        })
+    })
+
+</script>

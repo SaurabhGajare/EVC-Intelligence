@@ -1,0 +1,263 @@
+﻿
+@{
+    ViewData["Title"] = "Select Slot";
+}
+
+<!---CSS-->
+<style>
+    .btn-primary.disabled, .btn-primary:disabled {
+        color: #fff;
+        background-color: #4a719b;
+        border-color: #007bff;
+    }
+
+    .btn-primary {
+        color: #150202;
+        background-color: #2fce47;
+        border-color: #1861ac;
+    }
+
+        .btn-primary:hover {
+            color: #150202;
+            background-color: #2fce47;
+        }
+</style>
+
+
+<!--HTML-->
+
+
+<br>
+<table style="border: 1px solid black;margin:auto;width:500px;text-align:center;border-collapse:unset;" class="table">
+    <tr>
+        <th>
+            Selected Date
+        </th>
+        <th>
+            Selected Station
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @ViewBag.Date
+        </td>
+        <td>
+            @ViewBag.StationName
+        </td>
+    </tr>
+</table>
+<br>
+<div style="text-align:center">
+    <label id="VehicleSelect1">Select Vehicle Type : </label>
+    <select class="form-select" aria-label="Default select example" id="VehicleSelect" style="margin-left:30px;" ;">
+        <option value="0" selected>Audi E Tron</option>
+        <option value="1">Nexon EV</option>
+        <option value="2">Mercedes</option>
+        <option value="3">Tigor</option>
+        <option value="4">MG</option>
+        <option value="5">Kona Electric</option>
+    </select>
+</div>
+<br>
+<div class="row">
+    <div class="col-12 col-md-3 border border-dark" style="text-align:center;">
+        <div class="row" id="c1">
+            <div class="col-12 col-md-12" style="text-align:center;">Counter 1</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b1">10:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b2">11:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b3">12:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b4">13:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b5">14:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b6">15:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b7">16:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b8">17:00</button></div>
+            @*<div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c1b9">18:00</button></div>*@
+        </div>
+        <br>
+    </div>
+    <div class="col-12 col-md-3 border border-dark" style="text-align:center;">
+        <div class="row">
+            <div class="col-12 col-md-12" style="text-align:center;">Counter 2</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b1">10:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b2">11:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b3">12:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b4">13:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b5">14:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b6">15:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b7">16:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b8">17:00</button></div>
+            @*<div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c2b9">17:00</button></div>*@
+        </div>
+        <br>
+    </div>
+    <div class="col-12 col-md-3 border border-dark" style="text-align:center;">
+        <div class="row">
+            <div class="col-12 col-md-12" style="text-align:center;">Counter 3</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b1">10:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b2">11:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b3">12:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b4">13:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b5">14:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b6">15:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b7">16:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b8">17:00</button></div>
+            @*<div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c3b9">17:00</button></div>*@
+        </div>
+        <br>
+    </div>
+    <div class="col-12 col-md-3 border border-dark" style="text-align:center;">
+        <div class="row">
+            <div class="col-12 col-md-12" style="text-align:center;">Counter 4</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b1">10:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b2">11:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b3">12:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b4">13:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b5">14:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b6">15:00</button></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b7">16:00</button></div>
+            <div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b8">17:00</button></div>
+            @*<div class="col-12 col-md-4" style="text-align:center;"><button type="button" class="btn btn-primary btn-sm" id="c4b9">17:00</button></div>*@
+        </div>
+        <br>
+    </div>
+</div>
+<br>
+<div style="text-align:center">
+    <button type="submit" value="Pay" id="btnPay" class="btn-success" style="border-radius:10px;outline:none;width:80px">Pay</button>
+</div>
+
+
+
+
+
+
+<!--Script-->
+<script>
+    var slotArray = @Html.Raw(@ViewBag.SlotDetails);
+    console.log(slotArray);
+    for (var i in slotArray) {
+        for (var item in slotArray[i]) {
+            if (item == "slotId") {
+                var SlotId = parseInt(slotArray[i][item])
+            }
+            if (item == "counterId") {
+                var CounterId = parseInt(slotArray[i][item]);
+            }
+        }
+        var disable = "c" + CounterId + "b" + SlotId;
+        $("#" + disable).attr("disabled",true);                    //Disable Button for Booked Slots
+    }
+    var date = new Date();
+    var hours = date.getHours();
+    var maxDay = (date.getDate()).toString();
+    var maxMonth = (date.getMonth() + 1).toString();
+    var maxYear = date.getFullYear();
+    if (maxMonth < 10)
+        maxMonth = '0' + maxMonth;
+    if (maxDay < 10)
+        maxDay = '0' + maxDay;
+    var StringDate = maxDay + '-' + maxMonth + '-' + maxYear
+
+    if (StringDate == '@ViewBag.Date') {
+        for (var i = 1; i < 5; i++) {
+            for (var j = 10; j <= hours; j++) {
+                var disable = "c" + i + "b" + (hours - j +1);
+                $("#" + disable).attr("disabled", true);          //Disable button for previous TimeSlots
+
+            }
+        }
+    }
+
+    var id = ''
+    var arr;
+    var value =false;
+    $('.btn').click(function () {                              //To save state of clicked button
+        if (id == '') {
+            $(this).addClass('active')
+            id = $(this).attr('id')
+            arr = id.split("c")[1].split("b");
+            value = true;
+        } else {
+            $(this).addClass('active')
+            $('#' + id).removeClass('active')
+            if (id == $(this).attr('id')) {
+                id = ''
+                value = false;
+            }
+            else {
+                id = $(this).attr('id')
+                arr = id.split("c")[1].split("b");
+                value = true;
+            }
+        }
+    });
+
+
+    var obj = {}
+    $("#btnPay").click(function () {                     //Functionality for Pay Button
+        if (value == true) {
+            obj['Date'] = '@ViewBag.Date'
+            obj['CounterId'] = parseInt(arr[0]);
+            obj['SlotTime'] = $("#" + id).text();
+            obj['UserId'] = parseInt('@ViewBag.UserId')
+            obj['StationId'] = parseInt('@ViewBag.StationId')
+            obj['SlotId'] = parseInt(arr[1]);
+            obj['VehicleType'] = $("#VehicleSelect option:selected").text();
+
+            $.ajax({
+                url: 'https://localhost:44339/api/Pay/Pay/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    alert("Booking Successfull")
+                    //window.location.replace("https://localhost:5001/Home/Pay?StationId=7&date=30/07/2021&UserId=1");
+                    window.location.replace("https://localhost:5001/Home/Dashboard/" +'@User.Identity.Name');
+                },
+                error: function (error) {
+                    alert("Booking Unsuccessfull");
+                }
+            })
+        }
+        else {
+            alert("Please Select Slot");
+        }
+
+    })
+</script>

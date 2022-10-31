@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EVC_Intelligence_API", "EVC_Intelligence_API\EVC_Intelligence_API.csproj", "{2B6EB607-E190-43AA-AB45-0DBD2DBC4218}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EVC_Intelligence_UNIT_Tests", "EVC_Intelligence_UNIT_Tests\EVC_Intelligence_UNIT_Tests.csproj", "{7E6CA1A1-56AF-447D-B0BE-42A156C99B17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B6EB607-E190-43AA-AB45-0DBD2DBC4218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B6EB607-E190-43AA-AB45-0DBD2DBC4218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B6EB607-E190-43AA-AB45-0DBD2DBC4218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B6EB607-E190-43AA-AB45-0DBD2DBC4218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6CA1A1-56AF-447D-B0BE-42A156C99B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6CA1A1-56AF-447D-B0BE-42A156C99B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6CA1A1-56AF-447D-B0BE-42A156C99B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6CA1A1-56AF-447D-B0BE-42A156C99B17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C1A8EB3-FDB5-4F70-93CA-CCBC2D3E4D12}
+	EndGlobalSection
+EndGlobal

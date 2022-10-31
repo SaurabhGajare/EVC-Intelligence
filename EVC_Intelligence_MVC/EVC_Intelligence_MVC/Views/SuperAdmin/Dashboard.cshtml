@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "SuperAdmin Dashboard";
+}
+
+<h3> Welcome Super Admin </h3>
+
+<br>
+<hr style="height:2px; border-width:0; color:gray; background-color:gray">
+
+<div style="float : right; ">
+    <a id="AddAdmin" class="btn btn-success" href="/SuperAdmin/AddAdmin"> Add Admin </a>
+    <br><br>
+</div>
+<div style="text-align : left;">
+    <h4> All Admins </h4>
+</div>
+
+<div id="Table">
+    <table class="table" style=" text-align : center; ">
+        <thead>
+            <tr>
+                <th>
+                    Admin Id
+                </th>
+                <th>
+                    Admin Name
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Remove Profile
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var j in ViewBag.data)
+            {
+                <tr>
+                    <td> @j.adminId </td>
+                    <td> @j.adminName </td>
+                    <td> @j.email </td>
+                    <td> <button id="@j.adminId" class="btn btn-danger" onclick="DeleteAdmin(this.id)"> Delete </button> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    // Ajax function to call API to delete the admin details
+    function DeleteAdmin(id) {
+        var i = parseInt(id);
+
+        $(document).ready(function () {
+
+            var Id = i;
+
+            $.ajax({
+                url: 'https://localhost:44339/api/SuperAdminDashboard/RemoveAdmin',
+                type: 'Delete',
+                contentType: 'application/json',
+                data: JSON.stringify(Id),
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (error) {
+                    alert("Retry");
+                }
+            })
+        })
+    }
+</script>

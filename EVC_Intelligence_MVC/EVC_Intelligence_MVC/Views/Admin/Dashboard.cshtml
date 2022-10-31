@@ -1,0 +1,120 @@
+﻿@using System.Security.Claims;
+@{
+    string username = ((ClaimsIdentity)User.Identity).FindFirst("username").Value;
+}
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+<div class="row justify-content-between mx-auto">
+    <h3> Welcome @username </h3>
+    <a class="btn btn-primary" href="/Admin/UpdateUserDetails/@User.Identity.Name">Update User Deatils</a>
+</div>
+<br>
+<hr style="height:2px; border-width:0; color:gray; background-color:gray">
+
+<div style="float : right; ">
+    <a id="AddStation" class="btn btn-success" href="/Admin/AddStation/@User.Identity.Name"> Add Station </a>
+    <br><br>
+</div>
+<center>
+    <div>
+        <strong> All Stations </strong>
+    </div>
+</center>
+
+<div id="Table">
+    <table class="table" style=" text-align : center; ">
+        <thead>
+            <tr>
+                <th>
+                    Station Id
+                </th>
+                <th>
+                    Station Name
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Available
+                </th>
+                <th>
+                    Remove Station
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var j in ViewBag.data)
+            {
+                <tr>
+                    <td> @j.stnid </td>
+                    <td> @j.stnname </td>
+                    <td> @j.address </td>
+                    <td>
+                        @if (j.status == true)
+                        {
+                            <button id="@j.stnid" class="btn btn-primary" onclick="GetId(this.id)"> Open </button>
+                        }
+                        @if (j.status == false)
+                        {
+                            <button id="@j.stnid" class="btn btn-danger" onclick=GetId(this.id)> Closed </button>
+                        }
+                    </td>
+                    <!-- <td> <button id="Update" class="btn btn-info"> Update </button> </td> -->
+                    <td> <button id="@j.stnid" class="btn btn-danger" onclick="DeleteStation(this.id)"> Delete </button> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    // Ajax function to call API to change the open-close status of the charging station
+    function GetId(I) {
+        var i = parseInt(I);
+
+        $(document).ready(function () {
+
+            var StationId = i;
+
+            $.ajax({
+                url: 'https://localhost:44339/api/AdminDashboard/StationStatus',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(StationId),
+                success: function (data) {
+                    window.location.reload();
+                    alert("Updated Successfully");
+                },
+                error: function (error) {
+                    alert("Retry");
+                }
+            })
+        })
+    }
+
+    // Ajax function to call API to delete the Charging station details
+    function DeleteStation(stnid) {
+        var i = parseInt(stnid);
+
+        $(document).ready(function () {
+
+            var StationId = i;
+
+            $.ajax({
+                url: 'https://localhost:44339/api/AdminDashboard/RemoveStation',
+                type: 'Delete',
+                contentType: 'application/json',
+                data: JSON.stringify(StationId),
+                success: function (data) {
+                    window.location.reload();
+                    alert("Deleted Successfully");
+                },
+                error: function (error) {
+                    alert("Retry");
+                }
+            })
+        })
+    }
+</script>
